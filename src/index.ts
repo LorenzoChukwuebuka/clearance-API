@@ -2,7 +2,8 @@ import express, { Application } from 'express'
 import cors from 'cors'
 import helmet from 'helmet'
 import db from './db'
-import authRoutes from './Routes/AuthRoutes'
+import authRoutes from './Routes/adminRoutes/AuthRoutes'
+import studentRoutes from './Routes/adminRoutes/StudentRoutes'
 const app: Application = express()
 app.use(cors())
 app.use(helmet())
@@ -13,6 +14,7 @@ app.use(express.urlencoded({ extended: true }))
 //routes go here
 
 app.use('/api/v1/', authRoutes)
+app.use('/api/v1/', studentRoutes)
 
 //check for db connection
 db.connect((err: any) => {
