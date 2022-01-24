@@ -1,11 +1,18 @@
-import express, { Request, Response, Application } from 'express'
+import express, { Application } from 'express'
 import cors from 'cors'
 import helmet from 'helmet'
 import db from './db'
+import authRoutes from './Routes/AuthRoutes'
 const app: Application = express()
 app.use(cors())
 app.use(helmet())
 app.use(express.static('public'))
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
+
+//routes go here
+
+app.use('/api/v1/', authRoutes)
 
 //check for db connection
 db.connect((err: any) => {
