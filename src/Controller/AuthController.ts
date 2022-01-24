@@ -27,7 +27,7 @@ const adminlogin = (req: Request, res: Response, next: NextFunction) => {
   next()
 }
 
-const createAdmin1 = async (
+const createAdmin_1 = async (
   req: Request,
   res: Response,
   next: NextFunction
@@ -37,10 +37,13 @@ const createAdmin1 = async (
   let type: number = 1
 
   if (name && password) {
+    let salt: number = 10
+    bcrypt.hash(password, salt, (err, hashed) => {
+      let sql = 'INSERT INTO user (name,password,type)VALUES(?,?,?)'
+    })
   } else {
-    res.json({ message: 'Invalid Data' })
+    return res.json({ message: 'Invalid Data' })
   }
-  next()
 }
 
 const registerStudent = (req: Request, res: Response, next: NextFunction) => {
@@ -48,4 +51,4 @@ const registerStudent = (req: Request, res: Response, next: NextFunction) => {
   let regnum: number = req.body.regnum
 }
 const studentLogin = (req: Request, res: Response, next: NextFunction) => {}
-export default { adminlogin, registerStudent, studentLogin, createAdmin1 }
+export default { adminlogin, registerStudent, studentLogin, createAdmin_1 }
