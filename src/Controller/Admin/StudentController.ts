@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from 'express'
 import db from '../../db'
 import bcrypt from 'bcryptjs'
 import { currentDate } from '../../utils'
+import console from 'console'
 
 const createStudent = (req: Request, res: Response, next: NextFunction) => {
   let name: string = req.body.name
@@ -58,6 +59,7 @@ const fetchStudents = (req: Request, res: Response, next: NextFunction) => {
       console.log(err)
     }
   })
+  next()
 }
 
 const updateStudent = (req: Request, res: Response, next: NextFunction) => {
@@ -67,10 +69,19 @@ const updateStudent = (req: Request, res: Response, next: NextFunction) => {
   let dept: any = req.body.deptId
 
   if (name && regnum && dept) {
-    res.json({message:"No errors found"}).status(200)
-  }else{
-	  return res.json({message:"invalid details"}).status(401)
+    let sql =
+      'UPDATE students SET name = ?, reg_number = ?,department=? WHERE id = ?'
+    db.query(sql, [name, regnum, dept, Id], (err, rows) => {
+      if (!err) {
+        console.log(rows)
+      } else {
+        console.log(err)
+      }
+    })
+  } else {
+    return res.json({ message: 'invalid details' }).status(401)
   }
+  next()
 }
 
 const fetchDepts = (req: Request, res: Response, next: NextFunction) => {
@@ -82,6 +93,7 @@ const fetchDepts = (req: Request, res: Response, next: NextFunction) => {
       return res.json({ message: err })
     }
   })
+  next()
 }
 
 export default { createStudent, fetchStudents, updateStudent, fetchDepts }
