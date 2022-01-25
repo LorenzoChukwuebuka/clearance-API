@@ -56,10 +56,9 @@ const fetchStudents = (req: Request, res: Response, next: NextFunction) => {
     if (!err) {
       return res.send(result)
     } else {
-      console.log(err)
+      return res.json({ message: err })
     }
   })
-  next()
 }
 
 const updateStudent = (req: Request, res: Response, next: NextFunction) => {
@@ -73,15 +72,14 @@ const updateStudent = (req: Request, res: Response, next: NextFunction) => {
       'UPDATE students SET name = ?, reg_number = ?,department=? WHERE id = ?'
     db.query(sql, [name, regnum, dept, Id], (err, rows) => {
       if (!err) {
-        console.log(rows)
+        return res.send(rows)
       } else {
-        console.log(err)
+        return res.send(err)
       }
     })
   } else {
     return res.json({ message: 'invalid details' }).status(401)
   }
-  next()
 }
 
 const fetchDepts = (req: Request, res: Response, next: NextFunction) => {
@@ -93,7 +91,6 @@ const fetchDepts = (req: Request, res: Response, next: NextFunction) => {
       return res.json({ message: err })
     }
   })
-  next()
 }
 
 export default { createStudent, fetchStudents, updateStudent, fetchDepts }

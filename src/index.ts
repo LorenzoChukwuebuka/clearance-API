@@ -4,6 +4,7 @@ import helmet from 'helmet'
 import db from './db'
 import authRoutes from './Routes/adminRoutes/AuthRoutes'
 import studentRoutes from './Routes/adminRoutes/StudentRoutes'
+import uploadRoute from './Routes/userRoutes/uploadRoutes'
 const app: Application = express()
 app.use(cors())
 app.use(helmet())
@@ -15,6 +16,7 @@ app.use(express.urlencoded({ extended: true }))
 
 app.use('/api/v1/', authRoutes)
 app.use('/api/v1/', studentRoutes)
+app.use('/api/v1/', uploadRoute)
 
 //check for db connection
 db.connect((err: any) => {
