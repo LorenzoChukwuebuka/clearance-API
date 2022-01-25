@@ -2,7 +2,6 @@ import { Request, Response, NextFunction } from 'express'
 import db from '../../db'
 import bcrypt from 'bcryptjs'
 
-
 const adminlogin = (req: Request, res: Response, next: NextFunction) => {
   let username: string = req.body.username
   let password: string = req.body.password
@@ -56,15 +55,29 @@ const createAdmin_1 = async (
   } else {
     return res.json({ message: 'Invalid Data' }).status(401)
   }
+  next()
 }
 
-const registerStudent = (req: Request, res: Response, next: NextFunction) => {
-  let regnum: any = req.body.regnum
+const studentLogin = (req: Request, res: Response, next: NextFunction) => {
+  let regNum: any = req.body.regNum
   let password: any = req.body.password
-  let salt: number = 10
 
-  if (regnum && password) {
+  if (regNum && password) {
+    let sql = 'SELECT * FROM students WHERE reg_number = ? '
+    db.query(sql, [regNum], (err, rows) => {
+      if (!err) {
+        let hashedPass = rows[0]['password']
+        //compare the password
+        if (bcrypt.compareSync(hashedPass, password)) {
+          return res.send(rows)
+        } else {
+          return res.json({ message: 'Invalid Password/Details' })
+        }
+      }
+    })
+  } else {
+    return res.json({ message: 'Invalid data' })
   }
 }
-const studentLogin = (req: Request, res: Response, next: NextFunction) => {}
-export default { adminlogin, registerStudent, studentLogin, createAdmin_1 }
+
+export default { adminlogin, studentLogin, createAdmin_1 }
