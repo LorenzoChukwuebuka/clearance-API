@@ -1,3 +1,4 @@
+import multer from 'multer'
 export const currentDate = () => {
   let today = new Date()
   let date =
@@ -30,6 +31,30 @@ export const removeSpecial = (text: any) => {
   }
   return ''
 }
- 
- 
- 
+
+const multerStorage = multer.diskStorage({
+  destination: (req, files, cb) => {
+    cb(null, 'public/deptDues')
+  },
+  filename: (req, files, cb) => {
+    const ext = files.mimetype.split('/')[1]
+    cb(null, `dues-${files.originalname}${Date.now()}.${ext}`)
+  }
+})
+
+const multerFilter = (req: any, files: any, cb: any) => {
+  if (
+    files.mimetype.split('/')[1] === 'jpg' ||
+    files.mimetype.split('/')[1] === 'png' ||
+    files.mimetype.split('/')[1] === 'jpg'
+  ) {
+    cb(null, true)
+  } else {
+    cb(new Error('Not a PDF File!!'), false)
+  }
+}
+
+export const upload = multer({
+  storage: multerStorage,
+  fileFilter: multerFilter
+})
