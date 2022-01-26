@@ -1,4 +1,5 @@
 import multer from 'multer'
+import { Request, Response, NextFunction } from 'express'
 export const currentDate = () => {
   let today = new Date()
   let date =
@@ -38,7 +39,17 @@ const multerStorage = multer.diskStorage({
   },
   filename: (req, files, cb) => {
     const ext = files.mimetype.split('/')[1]
-    cb(null, `dues-${files.originalname}${Date.now()}.${ext}`)
+    cb(null, files.originalname)
+  }
+})
+
+const schoolFeesStorage = multer.diskStorage({
+  destination: (req, files, cb) => {
+    cb(null, 'public/deptDues')
+  },
+  filename: (req, files, cb) => {
+    const ext = files.mimetype.split('/')[1]
+    cb(null, files.originalname)
   }
 })
 
@@ -46,15 +57,43 @@ const multerFilter = (req: any, files: any, cb: any) => {
   if (
     files.mimetype.split('/')[1] === 'jpg' ||
     files.mimetype.split('/')[1] === 'png' ||
-    files.mimetype.split('/')[1] === 'jpg'
+    files.mimetype.split('/')[1] === 'jpeg'
   ) {
     cb(null, true)
   } else {
-    cb(new Error('Not a PDF File!!'), false)
+    cb(new Error('Not a supported file'), false)
   }
 }
-
-export const upload = multer({
+//dept fees
+export const uploadDeptDues = multer({
   storage: multerStorage,
   fileFilter: multerFilter
 })
+//school fees
+export const uploadSchFees = multer({
+  storage: schoolFeesStorage,
+  fileFilter: multerFilter
+})
+
+//error checking
+export const ErrorMulterChecking = (multerUploadFunction: any) => {
+  return (req: any, res: any, next: any) =>
+    multerUploadFunction(req, res, (err: any) => {
+      // handle Multer error
+      if (err && err.name && err.name === 'MulterError') {
+        return res.status(500).send({
+          error: err.name,
+          message: `File upload error: ${err.message}`
+        })
+      }
+      // handle other errors
+      if (err) {
+        return res.status(500).send({
+          error: 'FILE UPLOAD ERROR',
+          message: `Something wrong ocurred when trying to upload the file`
+        })
+      }
+
+      next()
+    })
+}
