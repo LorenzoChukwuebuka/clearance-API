@@ -45,7 +45,7 @@ const multerStorage = multer.diskStorage({
 
 const schoolFeesStorage = multer.diskStorage({
   destination: (req, files, cb) => {
-    cb(null, 'public/deptDues')
+    cb(null, 'public/schFees')
   },
   filename: (req, files, cb) => {
     const ext = files.mimetype.split('/')[1]

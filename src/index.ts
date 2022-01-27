@@ -10,7 +10,7 @@ app.use(cors())
 app.use(helmet())
 app.use(express.static('public'))
 app.use(express.json())
-app.use(express.urlencoded({ extended: true }))
+app.use(express.urlencoded({ extended: true })) 
 
 //routes go here
 
@@ -26,3 +26,4 @@ const PORT = process.env.PORT || 8000
 app.listen(PORT, (): void => {
   console.log(`Server Running here 👉 https://localhost:${PORT}`)
 })
+

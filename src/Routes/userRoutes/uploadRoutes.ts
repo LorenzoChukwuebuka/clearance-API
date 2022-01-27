@@ -18,7 +18,7 @@ router.post(
 router.post(
   '/uploadSchFees',
   ErrorMulterChecking(sch),
-  controller.uploadDeptDues
+  controller.uploadSchFees
 )
 
 export = router

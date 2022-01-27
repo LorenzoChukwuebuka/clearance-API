@@ -38,7 +38,7 @@ const createAdmin_1 = async (
 
   if (name && password) {
     let salt: number = 10
-    bcrypt.hash(password, salt, (error, hashed) => {
+   await bcrypt.hash(password, salt, (error, hashed) => {
       if (!error) {
         let sql = 'INSERT INTO user (name,password,type)VALUES(?,?,?)'
         db.query(sql, [name, hashed, type], (err, result) => {
