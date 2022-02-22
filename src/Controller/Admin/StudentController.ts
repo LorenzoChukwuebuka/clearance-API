@@ -64,7 +64,7 @@ const fetchStudents = (req: Request, res: Response, next: NextFunction) => {
 const updateStudent = (req: Request, res: Response, next: NextFunction) => {
   let Id: any = req.params.Id
   let name: string = req.body.name
-  let regnum: any = req.body.regnum
+  let regnum: number = req.body.regnum
   let dept: any = req.body.deptId
 
   if (name && regnum && dept) {

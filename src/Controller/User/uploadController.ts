@@ -112,21 +112,10 @@ const uploadSchFees = (req: Request, res: Response, next: NextFunction) => {
   }
 }
 
-const getUploadedDeptDues = (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {}
-
-const getUploadedSchoolFees = (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {}
+ 
 
 export default {
   uploadDeptDues,
   uploadSchFees,
-  getUploadedSchoolFees,
-  getUploadedDeptDues
+ 
 }
