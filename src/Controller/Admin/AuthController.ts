@@ -1,7 +1,6 @@
 import { Request, Response, NextFunction } from 'express'
 import db from '../../db'
 import bcrypt from 'bcryptjs'
-import { use } from '../../Routes/adminRoutes/AuthRoutes'
 
 const adminlogin = (req: Request, res: Response, next: NextFunction) => {
   let username: string = req.body.username
@@ -40,25 +39,32 @@ const adminlogin = (req: Request, res: Response, next: NextFunction) => {
   }
 }
 
-const createAdmin = async (req: Request, res: Response, next: NextFunction) => {
+const createAdmin = (req: Request, res: Response, next: NextFunction) => {
   let name: string = req.body.name
   let password: string = req.body.password
   let type: number = req.body.type
 
   if (name && password) {
     let salt: number = 10
-    await bcrypt.hash(password, salt, (error, hashed) => {
-      if (!error) {
-        let sql = 'INSERT INTO user (name,password,type)VALUES(?,?,?)'
-        db.query(sql, [name, hashed, type], (err, result) => {
-          if (!err) {
-            return res.json({ message: 'Inserted succesfully' })
+
+    db.query('SELECT * FROM user WHERE name = ?', [name], (err, results) => {
+      if (results.length > 0) {
+        return res.json({ message: 'user exists' })
+      } else {
+        bcrypt.hash(password, salt, (error, hashed) => {
+          if (!error) {
+            let sql = 'INSERT INTO user (name,password,type)VALUES(?,?,?)'
+            db.query(sql, [name, hashed, type], (err, result) => {
+              if (!err) {
+                return res.json({ message: 'Inserted succesfully' })
+              } else {
+                return err
+              }
+            })
           } else {
-            return err
+            console.log(error)
           }
         })
-      } else {
-        console.log(error)
       }
     })
   } else {
@@ -93,20 +99,52 @@ const studentLogin = (req: Request, res: Response, next: NextFunction) => {
 }
 
 const fetchAdmin = (req: Request, res: Response, next: NextFunction) => {
-  db.query('SELECT user.name,user.type FROM user', (err, results) => {
-    if (!err) {
-      if (results.length > 0) {
-        res.send(results)
+  db.query(
+    'SELECT user.id,user.name,user.type FROM user WHERE type != 0',
+    (err, results) => {
+      if (!err) {
+        if (results.length > 0) {
+          res.send(results)
+        }
+      } else {
+        return err
       }
+    }
+  )
+}
+
+const deleteAdmin = (req: Request, res: Response, next: NextFunction) => {
+  let id: any = req.params.id
+  db.query(`DELETE FROM user WHERE id=${id}`, (err, rows) => {
+    if (!err) {
+      return res.json({ message: 'Deleted!' })
     } else {
       return err
     }
   })
 }
 
-const deleteAdmin = (req: Request, res: Response, next: NextFunction) => {}
+const updateAdmin = (req: Request, res: Response, next: NextFunction) => {
+  let name: string = req.body.name
+  // let password: string = req.body.password
+  let type: number = req.body.type
+  let id: any = req.params.id
 
-const updateAdmin = (req: Request, res: Response, next: NextFunction) => {}
+  if (name && type) {
+    db.query(
+      `UPDATE user SET name = '${name}', type = ${type}  WHERE id = ${id} `,
+      (err, rows) => {
+        if (!err) {
+          return res.json({ message: 'updated' })
+        } else {
+          return err
+        }
+      }
+    )
+  } else {
+    return res.json({ message: 'Incorrect Input' })
+  }
+}
 export default {
   adminlogin,
   studentLogin,

@@ -51,7 +51,7 @@ const createStudent = (req: Request, res: Response, next: NextFunction) => {
 const fetchStudents = (req: Request, res: Response, next: NextFunction) => {
   //fetch all students
   let sql =
-    'SELECT students.name,students.reg_number,students.department,students.date_created,department.department FROM students JOIN department ON department.id = students.department'
+    'SELECT students.id, students.name,students.reg_number,students.department,students.date_created,department.department FROM students JOIN department ON department.id = students.department'
   db.query(sql, (err, result) => {
     if (!err) {
       return res.send(result)
@@ -72,7 +72,7 @@ const updateStudent = (req: Request, res: Response, next: NextFunction) => {
       'UPDATE students SET name = ?, reg_number = ?,department=? WHERE id = ?'
     db.query(sql, [name, regnum, dept, Id], (err, rows) => {
       if (!err) {
-        return res.send(rows)
+        return res.json({ message: 'Updated!' })
       } else {
         return res.send(err)
       }
@@ -82,15 +82,16 @@ const updateStudent = (req: Request, res: Response, next: NextFunction) => {
   }
 }
 
-const fetchDepts = (req: Request, res: Response, next: NextFunction) => {
-  let sql = 'SELECT * FROM department'
-  db.query(sql, (err, rows) => {
+const delStudent = (req: Request, res: Response, next: NextFunction) => {
+  let id: any = req.params.Id
+
+  db.query(`DELETE FROM students WHERE id = ${id} `, (err, result) => {
     if (!err) {
-      return res.send(rows)
+      return res.json({ message: 'Deleted!' })
     } else {
-      return res.json({ message: err })
+      return err
     }
   })
 }
 
-export default { createStudent, fetchStudents, updateStudent, fetchDepts }
+export default { createStudent, fetchStudents, updateStudent, delStudent }
