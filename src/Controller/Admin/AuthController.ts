@@ -9,24 +9,27 @@ const adminlogin = (req: Request, res: Response, next: NextFunction) => {
   try {
     if (username && password) {
       db.query(
-        'SELECT * FROM user WHERE name = ?',
+        'SELECT * FROM user WHERE name = ? LIMIT 1',
         [username],
         (error, rows) => {
           if (!error) {
             //check if username exists
-            if (rows.length > 0) {
-              let hashedPass = rows[0]['password']
-              bcrypt.compare(password, hashedPass, errs => {
-                if (errs) {
-                  return res
-                    .json({ message: 'Internal Server Error' })
-                    .status(501)
-                } else if (!errs) {
-                  return res.send(rows)
-                }
+            if (rows.length === 0) {
+              return res.json({ message: 'user not found' })
+            }
+
+            //check password
+            let hashedPass = rows[0]['password']
+
+            if (bcrypt.compareSync(password, hashedPass)) {
+              return res.json({
+                message: 'login successful',
+                id: rows[0]['id'],
+                type: rows[0]['type'],
+                name: username
               })
             } else {
-              res.json({ message: 'user not found' })
+              res.json({ message: 'Password do not match' })
             }
           }
         }
@@ -77,19 +80,25 @@ const studentLogin = (req: Request, res: Response, next: NextFunction) => {
   let password: any = req.body.password
 
   if (regNum && password) {
-    let sql = 'SELECT * FROM students WHERE reg_number = ? '
+    let sql = 'SELECT * FROM students WHERE reg_number = ? LIMIT 1 '
     db.query(sql, [regNum], (err, rows) => {
       if (!err) {
-        if (rows.length > 0) {
-          let hashedPass = rows[0]['password']
-          //compare the password
-          if (bcrypt.compareSync(hashedPass, password)) {
-            return res.send(rows)
-          } else {
-            return res.json({ message: 'Invalid Password/Details' })
-          }
+        //check if user exists
+        if (rows.length === 0) {
+          return res.json({ message: 'user not found' })
+        }
+
+        //compare passwords
+
+        let hashedPass = rows[0]['password']
+        if (bcrypt.compareSync(password, hashedPass)) {
+          return res.json({
+            message: 'login successful',
+            id: rows[0]['id'],
+            name: rows[0]['name']
+          })
         } else {
-          return res.json({ message: 'User not found' })
+          return res.json({ message: 'Password does not match' })
         }
       }
     })

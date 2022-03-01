@@ -15,7 +15,7 @@ const getAdmins = (req: Request, res: Response, next: NextFunction) => {
 }
 const getDepts = (req: Request, res: Response, next: NextFunction) => {
   db.query(
-    'Select ifnull(((select COUNT(`id`) from `department` )),0) AS total_dept',
+    'Select ifnull(((select COUNT(`id`) from `department` )),0) AS total_depts',
     (err, results) => {
       if (!err) {
         return res.send(results)
