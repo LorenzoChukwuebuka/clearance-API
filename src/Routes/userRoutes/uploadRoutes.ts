@@ -8,17 +8,9 @@ const dept = uploadDeptDues.array('myfile', 5)
 
 import controller from '../../Controller/User/uploadController'
 
-router.post(
-  '/uploadDeptDues',
-  ErrorMulterChecking(dept),
-  controller.uploadDeptDues
-)
+router.post('/deptDues', ErrorMulterChecking(dept), controller.uploadDeptDues)
 //
 
-router.post(
-  '/uploadSchFees',
-  ErrorMulterChecking(sch),
-  controller.uploadSchFees
-)
+router.post('/SchFees', ErrorMulterChecking(sch), controller.uploadSchFees)
 
 export = router

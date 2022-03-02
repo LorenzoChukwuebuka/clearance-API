@@ -1,4 +1,5 @@
 import multer from 'multer'
+import path from 'path'
 import { Request, Response, NextFunction } from 'express'
 export const currentDate = () => {
   let today = new Date()
@@ -32,10 +33,11 @@ export const removeSpecial = (text: any) => {
   }
   return ''
 }
-
+const uploadSchFeesPath = path.join(__dirname, './public/schFees')
+const uploadDeptDuesPath = path.join(__dirname, './public/deptDues')
 const multerStorage = multer.diskStorage({
   destination: (req, files, cb) => {
-    cb(null, 'public/deptDues')
+    cb(null, uploadDeptDuesPath)
   },
   filename: (req, files, cb) => {
     const ext = files.mimetype.split('/')[1]
@@ -45,7 +47,7 @@ const multerStorage = multer.diskStorage({
 
 const schoolFeesStorage = multer.diskStorage({
   destination: (req, files, cb) => {
-    cb(null, 'public/schFees')
+    cb(null, uploadSchFeesPath)
   },
   filename: (req, files, cb) => {
     const ext = files.mimetype.split('/')[1]
@@ -89,7 +91,7 @@ export const ErrorMulterChecking = (multerUploadFunction: any) => {
       // handle other errors
       if (err) {
         return res.status(500).send({
-          error: 'FILE UPLOAD ERROR',
+          error: err,
           message: `Something wrong ocurred when trying to upload the file`
         })
       }
