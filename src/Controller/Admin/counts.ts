@@ -38,6 +38,8 @@ const getStudents = (req: Request, res: Response, next: NextFunction) => {
   )
 }
 
+const pendingFees = (req: Request, res: Response, next: NextFunction) => {}
+
 export default {
   getAdmins,
   getDepts,

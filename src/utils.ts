@@ -41,7 +41,7 @@ const multerStorage = multer.diskStorage({
   },
   filename: (req, files, cb) => {
     const ext = files.mimetype.split('/')[1]
-    cb(null, files.originalname)
+    cb(null, `departmentDues-${files.originalname}`)
   }
 })
 
@@ -51,16 +51,12 @@ const schoolFeesStorage = multer.diskStorage({
   },
   filename: (req, files, cb) => {
     const ext = files.mimetype.split('/')[1]
-    cb(null, files.originalname)
+    cb(null, `schoolFees-${files.originalname}`)
   }
 })
 
 const multerFilter = (req: any, files: any, cb: any) => {
-  if (
-    files.mimetype.split('/')[1] === 'jpg' ||
-    files.mimetype.split('/')[1] === 'png' ||
-    files.mimetype.split('/')[1] === 'jpeg'
-  ) {
+  if (files.mimetype.split('/')[1] === 'pdf') {
     cb(null, true)
   } else {
     cb(new Error('Not a supported file'), false)

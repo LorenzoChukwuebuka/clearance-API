@@ -112,10 +112,78 @@ const uploadSchFees = (req: Request, res: Response, next: NextFunction) => {
   }
 }
 
- 
+const fetchSchoolFees = (req: Request, res: Response, next: NextFunction) => {
+  db.query(
+    'SELECT schoolfees.*,students.name,students.reg_number FROM schoolfees JOIN students ON students.id = schoolfees.student_id',
+    (err, rows) => {
+      if (err) return err
+      if (!err) {
+        if (rows.length === 0)
+          return res.json({ message: 'No school fees has been uploaded' })
+        return res.send(rows)
+      }
+    }
+  )
+}
 
+const fetchDepDues = (req: Request, res: Response, next: NextFunction) => {
+  db.query(
+    'SELECT departmentaldues.*,students.name,students.reg_number FROM departmentaldues JOIN students ON students.id = departmentaldues.student_id',
+    (err, rows) => {
+      if (err) return err
+      if (!err) {
+        if (rows.length === 0)
+          return res.json({
+            message: 'No department dues fees has been uploaded'
+          })
+        return res.send(rows)
+      }
+    }
+  )
+}
+
+const getfetchSingleschfees = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  let id: any = req.params.id
+
+  db.query(
+    `SELECT schoolfees.*,students.name,students.reg_number FROM schoolfees JOIN students ON students.id = schoolfees.student_id WHERE student_id = ${id}`,
+    (err, rows) => {
+      if (err) return err
+      if (!err) {
+        if (rows.length === 0) return res.json({ message: 'No uploads yet' })
+        return res.send(rows)
+      }
+    }
+  )
+}
+
+const getfetchSingledeptdues = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  let id: any = req.params.id
+
+  db.query(
+    `SELECT departmentaldues.*,students.name,students.reg_number FROM departmentaldues JOIN students ON students.id = departmentaldues.student_id WHERE student_id = ${id}`,
+    (err, rows) => {
+      if (err) return err
+      if (!err) {
+        if (rows.length === 0) return res.json({ message: 'No uploads yet' })
+        return res.send(rows)
+      }
+    }
+  )
+}
 export default {
   uploadDeptDues,
   uploadSchFees,
- 
+  fetchSchoolFees,
+  fetchDepDues,
+  getfetchSingledeptdues,
+  getfetchSingleschfees
 }
