@@ -8,6 +8,8 @@ import controllers from '../../Controller/Admin/approveFees'
 router.get('/totalAdmins', controller.getAdmins)
 router.get('/totalDepts', controller.getDepts)
 router.get('/totalStudents', controller.getStudents)
+router.get('/pendingschoolfees',controller.pendingSchFees)
+router.get('/pendingdeptdues',controller.pendingDeptDues)
 
 /**
  * view and approve the forms submitted by the studens
