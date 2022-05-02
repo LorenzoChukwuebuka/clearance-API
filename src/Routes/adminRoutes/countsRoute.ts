@@ -4,6 +4,7 @@ const router = express.Router()
 
 import controller from '../../Controller/Admin/counts'
 import controllers from '../../Controller/Admin/approveFees'
+ 
 
 router.get('/totalAdmins', controller.getAdmins)
 router.get('/totalDepts', controller.getDepts)
@@ -18,5 +19,7 @@ router.get('/pendingdeptdues',controller.pendingDeptDues)
 router.get('/getpendingSchFees', controllers.getAllPendingSchFees)
 router.get('/getApprovedSchFees', controllers.getAllApprovedSchFees)
 router.put('/approvedSchFees/:id', controllers.approveSchFees)
+router.get('/pendingform',controllers.getpendingform)
+router.put('/approvependingform',controllers.approveform)
 
 export = router

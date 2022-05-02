@@ -43,14 +43,14 @@ const adminlogin = (req: Request, res: Response, next: NextFunction) => {
 }
 
 const createAdmin = (req: Request, res: Response, next: NextFunction) => {
-    let name: string = req.body.name
-    let password: string = req.body.password
-    let type: number = req.body.type
+    const { name, password, type } = req.body
+
 
     if (name && password) {
         let salt: number = 10
 
-        db.query('SELECT * FROM user WHERE name = ?', [name], (err, results) => {
+
+        db.query('SELECT * FROM user WHERE name = ? AND status = ?', [name,], (err, results) => {
             if (results.length > 0) {
                 return res.json({ message: 'user exists' })
             } else {
@@ -76,12 +76,13 @@ const createAdmin = (req: Request, res: Response, next: NextFunction) => {
 }
 
 const studentLogin = (req: Request, res: Response, next: NextFunction) => {
-    let regNum: any = req.body.regNum
-    let password: any = req.body.password
+    const { regNum, password } = req.body
+
+    let status = 'Approved'
 
     if (regNum && password) {
-        let sql = 'SELECT * FROM students WHERE reg_number = ? LIMIT 1 '
-        db.query(sql, [regNum], (err, rows) => {
+        let sql = 'SELECT * FROM students WHERE reg_number = ? WHERE status = ? LIMIT 1 '
+        db.query(sql, [regNum, status], (err, rows) => {
             if (!err) {
                 //check if user exists
                 if (rows.length === 0) {
@@ -134,9 +135,9 @@ const deleteAdmin = (req: Request, res: Response, next: NextFunction) => {
 }
 
 const updateAdmin = (req: Request, res: Response, next: NextFunction) => {
-    let name: string = req.body.name
-    // let password: string = req.body.password
-    let type: number = req.body.type
+
+    const { name, type } = req.body
+
     let id: any = req.params.id
 
     if (name && type) {
@@ -155,7 +156,7 @@ const updateAdmin = (req: Request, res: Response, next: NextFunction) => {
     }
 }
 
- 
+
 export default {
     adminlogin,
     studentLogin,
