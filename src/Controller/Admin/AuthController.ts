@@ -3,8 +3,8 @@ import db from '../../db'
 import bcrypt from 'bcryptjs'
 
 const adminlogin = (req: Request, res: Response, next: NextFunction) => {
-    let username: string = req.body.username
-    let password: string = req.body.password
+    const { username, password } = req.body
+
 
     try {
         if (username && password) {
@@ -81,27 +81,28 @@ const studentLogin = (req: Request, res: Response, next: NextFunction) => {
     let status = 'Approved'
 
     if (regNum && password) {
-        let sql = 'SELECT * FROM students WHERE reg_number = ? WHERE status = ? LIMIT 1 '
+        let sql = 'SELECT * FROM students WHERE reg_number = ? AND  status = ? LIMIT 1 '
         db.query(sql, [regNum, status], (err, rows) => {
-            if (!err) {
-                //check if user exists
-                if (rows.length === 0) {
-                    return res.json({ message: 'user not found' })
-                }
+            if (err) return err
 
-                //compare passwords
-
-                let hashedPass = rows[0]['password']
-                if (bcrypt.compareSync(password, hashedPass)) {
-                    return res.json({
-                        message: 'login successful',
-                        id: rows[0]['id'],
-                        name: rows[0]['name']
-                    })
-                } else {
-                    return res.json({ message: 'Password does not match' })
-                }
+            //check if user exists
+            if (rows.length === 0) {
+                return res.json({ message: 'user not found' })
             }
+
+            //compare passwords
+
+            let hashedPass = rows[0]['password']
+            if (bcrypt.compareSync(password, hashedPass)) {
+                return res.json({
+                    message: 'login successful',
+                    id: rows[0]['id'],
+                    name: rows[0]['name']
+                })
+            } else {
+                return res.json({ message: 'Password does not match' })
+            }
+
         })
     } else {
         return res.json({ message: 'Invalid data' })
