@@ -56,7 +56,7 @@ const schoolFeesStorage = multer.diskStorage({
 })
 
 const multerFilter = (req: any, files: any, cb: any) => {
-    if (files.mimetype.split('/')[1] === 'pdf') {
+    if (files.mimetype.split('/')[1] === 'png') {
         cb(null, true)
     } else {
         cb(new Error('Not a supported file'), false)

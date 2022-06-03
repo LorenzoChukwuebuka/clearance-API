@@ -1,9 +1,9 @@
-import mysql from 'mysql'
+import mysql2 from 'mysql2'
 
-const db = mysql.createConnection({
+const db = mysql2.createConnection({
     host     :   'localhost', 
-    user     :    'root',
-    password :    '',
+    user     :    'phpmyadmin',
+    password :    'Lorenzo',
     database :    'clearance'
 });
 

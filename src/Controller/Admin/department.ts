@@ -21,7 +21,7 @@ const addDepartment = (req: Request, res: Response, next: NextFunction) => {
     db.query(
       'SELECT * FROM department WHERE department = ?',
       [dept],
-      (errors, result) => {
+      (errors, result:any) => {
         if (!errors) {
           if (result.length > 0) {
             return res.json({ message: 'department already exist' })

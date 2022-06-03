@@ -18,7 +18,6 @@ app.use(express.urlencoded({ extended: true }))
 //routes go here
 
 app.use('/api/v1/', authRoutes)
-
 app.use('/api/v1/', uploadRoute)
 app.use('/api/v1', deptRoutes)
 app.use('/api/v1/', countsRouter)

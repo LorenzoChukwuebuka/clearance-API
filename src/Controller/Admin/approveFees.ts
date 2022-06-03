@@ -9,9 +9,9 @@ const getAllPendingSchFees = (
 ) => {
     db.query(
         'SELECT schoolfees.*,students.name,students.reg_number FROM schoolfees JOIN students ON students.id = schoolfees.student_id WHERE schoolfees.status = "Not Approved" ',
-        (err, rows) => {
+        (err, rows:any) => {
             if (err) return err
-            if (rows.length === 0) return res.json({ message: 'No uploads yet' })
+            
             res.send(rows)
         }
     )
@@ -24,9 +24,9 @@ const getAllApprovedSchFees = (
 ) => {
     db.query(
         'SELECT schoolfees.*,students.name,students.reg_number FROM schoolfees JOIN students ON students.id = schoolfees.student_id WHERE schoolfees.status = "Approved" ',
-        (err, rows) => {
+        (err, rows:any) => {
             if (err) return err
-            if (rows.length === 0) return res.json({ message: 'No uploads yet' })
+            
             return res.send(rows)
         }
     )
@@ -52,7 +52,7 @@ const getAllPendingDeptDues = (
 ) => {
     db.query(
         'SELECT departmentaldues.*,students.name,students.reg_number FROM departmentaldues JOIN students ON students.id = departmentaldues.student_id WHERE departmentaldues.status = "Not Approved" ',
-        (err, rows) => {
+        (err, rows:any) => {
             if (err) return err
             if (rows.length === 0) return res.json({ message: 'No uploads yet' })
             res.send(rows)
@@ -67,7 +67,7 @@ const getAllApprovedDeptdues = (
 ) => {
     db.query(
         'SELECT departmentaldues.*,students.name,students.reg_number FROM departmentaldues JOIN students ON students.id = departmentaldues.student_id WHERE departmentaldues.status = "Approved" ',
-        (err, rows) => {
+        (err, rows:any) => {
             if (err) return err
             if (rows.length === 0) return res.json({ message: 'No uploads yet' })
             return res.send(rows)

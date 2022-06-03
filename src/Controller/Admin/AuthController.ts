@@ -14,18 +14,18 @@ const adminlogin = (req: Request, res: Response, next: NextFunction) => {
                 (error, rows) => {
                     if (!error) {
                         //check if username exists
-                        if (rows.length === 0) {
+                        if ((rows as any).length === 0) {
                             return res.json({ message: 'user not found' })
                         }
 
                         //check password
-                        let hashedPass = rows[0]['password']
+                        let hashedPass = (rows as any)[0]['password']
 
                         if (bcrypt.compareSync(password, hashedPass)) {
                             return res.json({
                                 message: 'login successful',
-                                id: rows[0]['id'],
-                                type: rows[0]['type'],
+                                id: (rows as any)[0]['id'],
+                                type: (rows as any)[0]['type'],
                                 name: username
                             })
                         } else {
@@ -50,7 +50,7 @@ const createAdmin = (req: Request, res: Response, next: NextFunction) => {
         let salt: number = 10
 
 
-        db.query('SELECT * FROM user WHERE name = ? AND status = ?', [name,], (err, results) => {
+        db.query('SELECT * FROM user WHERE name = ? AND status = ?', [name,], (err, results: any) => {
             if (results.length > 0) {
                 return res.json({ message: 'user exists' })
             } else {
@@ -82,7 +82,7 @@ const studentLogin = (req: Request, res: Response, next: NextFunction) => {
 
     if (regNum && password) {
         let sql = 'SELECT * FROM students WHERE reg_number = ? AND  status = ? LIMIT 1 '
-        db.query(sql, [regNum, status], (err, rows) => {
+        db.query(sql, [regNum, status], (err, rows: any) => {
             if (err) return err
 
             //check if user exists
@@ -112,7 +112,7 @@ const studentLogin = (req: Request, res: Response, next: NextFunction) => {
 const fetchAdmin = (req: Request, res: Response, next: NextFunction) => {
     db.query(
         'SELECT user.id,user.name,user.type FROM user WHERE type != 0',
-        (err, results) => {
+        (err, results: any) => {
             if (!err) {
                 if (results.length > 0) {
                     res.send(results)

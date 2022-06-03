@@ -20,7 +20,7 @@ const uploadDeptDues = (req: Request, res: Response, next: NextFunction) => {
 
         let userExists = 'SELECT * FROM departmentaldues WHERE id = ?'
 
-        db.query(userExists, [studentId], (err, rows) => {
+        db.query(userExists, [studentId], (err, rows: any) => {
             if (!err) {
                 if (rows.length > 0) {
                     return res.json({ message: 'user already Exists' })
@@ -74,7 +74,7 @@ const uploadSchFees = (req: Request, res: Response, next: NextFunction) => {
         //check if student data already exists
 
         let userExists = 'SELECT * FROM schoolfees WHERE id = ?'
-        db.query(userExists, [studentId], (err, rows) => {
+        db.query(userExists, [studentId], (err, rows: any) => {
             if (!err) {
                 if (rows.length > 0) {
                     res.json({ message: 'User already exists' })
@@ -115,7 +115,7 @@ const uploadSchFees = (req: Request, res: Response, next: NextFunction) => {
 const fetchSchoolFees = (req: Request, res: Response, next: NextFunction) => {
     db.query(
         'SELECT schoolfees.*,students.name,students.reg_number FROM schoolfees JOIN students ON students.id = schoolfees.student_id',
-        (err, rows) => {
+        (err, rows: any) => {
             if (err) return err
             if (!err) {
                 if (rows.length === 0)
@@ -129,7 +129,7 @@ const fetchSchoolFees = (req: Request, res: Response, next: NextFunction) => {
 const fetchDepDues = (req: Request, res: Response, next: NextFunction) => {
     db.query(
         'SELECT departmentaldues.*,students.name,students.reg_number FROM departmentaldues JOIN students ON students.id = departmentaldues.student_id',
-        (err, rows) => {
+        (err, rows: any) => {
             if (err) return err
             if (!err) {
                 if (rows.length === 0)
@@ -151,10 +151,10 @@ const getfetchSingleschfees = (
 
     db.query(
         `SELECT schoolfees.*,students.name,students.reg_number FROM schoolfees JOIN students ON students.id = schoolfees.student_id WHERE student_id = ${id}`,
-        (err, rows) => {
+        (err, rows: any) => {
             if (err) return err
             if (!err) {
-                if (rows.length === 0) return res.json({ message: 'No uploads yet' })
+
                 return res.send(rows)
             }
         }
@@ -170,10 +170,10 @@ const getfetchSingledeptdues = (
 
     db.query(
         `SELECT departmentaldues.*,students.name,students.reg_number FROM departmentaldues JOIN students ON students.id = departmentaldues.student_id WHERE student_id = ${id}`,
-        (err, rows) => {
+        (err, rows: any) => {
             if (err) return err
             if (!err) {
-                if (rows.length === 0) return res.json({ message: 'No uploads yet' })
+
                 return res.send(rows)
             }
         }

@@ -18,8 +18,8 @@ router.get('/pendingdeptdues',controller.pendingDeptDues)
 
 router.get('/getpendingSchFees', controllers.getAllPendingSchFees)
 router.get('/getApprovedSchFees', controllers.getAllApprovedSchFees)
-router.put('/approvedSchFees/:id', controllers.approveSchFees)
+router.put('/approveSchFees/:id', controllers.approveSchFees)
 router.get('/pendingform',controllers.getpendingform)
-router.put('/approvependingform',controllers.approveform)
+router.put('/approvependingform/:id',controllers.approveform)
 
 export = router
