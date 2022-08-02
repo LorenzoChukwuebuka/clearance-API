@@ -4,13 +4,13 @@ const router = express.Router()
 
 import controller from '../../Controller/Admin/counts'
 import controllers from '../../Controller/Admin/approveFees'
- 
+
 
 router.get('/totalAdmins', controller.getAdmins)
 router.get('/totalDepts', controller.getDepts)
 router.get('/totalStudents', controller.getStudents)
-router.get('/pendingschoolfees',controller.pendingSchFees)
-router.get('/pendingdeptdues',controller.pendingDeptDues)
+router.get('/pendingschoolfees', controller.pendingSchFees)
+
 
 /**
  * view and approve the forms submitted by the studens
@@ -18,8 +18,11 @@ router.get('/pendingdeptdues',controller.pendingDeptDues)
 
 router.get('/getpendingSchFees', controllers.getAllPendingSchFees)
 router.get('/getApprovedSchFees', controllers.getAllApprovedSchFees)
+router.get('/getapproveddeptdues', controllers.getAllApprovedDeptdues)
+router.put('/approvedeptdues', controllers.approveDeptDues)
 router.put('/approveSchFees/:id', controllers.approveSchFees)
-router.get('/pendingform',controllers.getpendingform)
-router.put('/approvependingform/:id',controllers.approveform)
+router.get('/pendingform', controllers.getpendingform)
+router.put('/approvependingform/:id', controllers.approveform)
+router.get('/getpendingdeptdues', controllers.getAllPendingDeptDues)
 
 export = router

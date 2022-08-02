@@ -1,6 +1,10 @@
 import multer from 'multer'
 import path from 'path'
 import { Request, Response, NextFunction } from 'express'
+const uploadSchFeesPath = path.join(__dirname, './public/schFees')
+const uploadDeptDuesPath = path.join(__dirname, './public/deptDues')
+
+
 export const currentDate = () => {
     let today = new Date()
     let date =
@@ -33,8 +37,7 @@ export const removeSpecial = (text: any) => {
     }
     return ''
 }
-const uploadSchFeesPath = path.join(__dirname, './public/schFees')
-const uploadDeptDuesPath = path.join(__dirname, './public/deptDues')
+
 const multerStorage = multer.diskStorage({
     destination: (req, files, cb) => {
         cb(null, uploadDeptDuesPath)
@@ -56,7 +59,7 @@ const schoolFeesStorage = multer.diskStorage({
 })
 
 const multerFilter = (req: any, files: any, cb: any) => {
-    if (files.mimetype.split('/')[1] === 'png') {
+    if (files.mimetype.split('/')[1] === "pdf") {
         cb(null, true)
     } else {
         cb(new Error('Not a supported file'), false)

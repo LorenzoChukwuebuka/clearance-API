@@ -49,15 +49,14 @@ const createAdmin = (req: Request, res: Response, next: NextFunction) => {
     if (name && password) {
         let salt: number = 10
 
-
-        db.query('SELECT * FROM user WHERE name = ? AND status = ?', [name,], (err, results: any) => {
-            if (results.length > 0) {
+        db.query('SELECT * FROM user WHERE name = ? ', [name,], (err: any, rows: any) => {
+            if (rows.length > 0) {
                 return res.json({ message: 'user exists' })
             } else {
                 bcrypt.hash(password, salt, (error, hashed) => {
                     if (!error) {
                         let sql = 'INSERT INTO user (name,password,type)VALUES(?,?,?)'
-                        db.query(sql, [name, hashed, type], (err, result) => {
+                        db.query(sql, [name, hashed, type], (err, result: any) => {
                             if (!err) {
                                 return res.json({ message: 'Inserted succesfully' })
                             } else {

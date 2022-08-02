@@ -9,9 +9,9 @@ const getAllPendingSchFees = (
 ) => {
     db.query(
         'SELECT schoolfees.*,students.name,students.reg_number FROM schoolfees JOIN students ON students.id = schoolfees.student_id WHERE schoolfees.status = "Not Approved" ',
-        (err, rows:any) => {
+        (err, rows: any) => {
             if (err) return err
-            
+
             res.send(rows)
         }
     )
@@ -24,9 +24,9 @@ const getAllApprovedSchFees = (
 ) => {
     db.query(
         'SELECT schoolfees.*,students.name,students.reg_number FROM schoolfees JOIN students ON students.id = schoolfees.student_id WHERE schoolfees.status = "Approved" ',
-        (err, rows:any) => {
+        (err, rows: any) => {
             if (err) return err
-            
+
             return res.send(rows)
         }
     )
@@ -52,9 +52,9 @@ const getAllPendingDeptDues = (
 ) => {
     db.query(
         'SELECT departmentaldues.*,students.name,students.reg_number FROM departmentaldues JOIN students ON students.id = departmentaldues.student_id WHERE departmentaldues.status = "Not Approved" ',
-        (err, rows:any) => {
+        (err, rows: any) => {
             if (err) return err
-            if (rows.length === 0) return res.json({ message: 'No uploads yet' })
+            //if (rows.length === 0) return res.json({ message: 'No uploads yet' })
             res.send(rows)
         }
     )
@@ -67,9 +67,9 @@ const getAllApprovedDeptdues = (
 ) => {
     db.query(
         'SELECT departmentaldues.*,students.name,students.reg_number FROM departmentaldues JOIN students ON students.id = departmentaldues.student_id WHERE departmentaldues.status = "Approved" ',
-        (err, rows:any) => {
+        (err, rows: any) => {
             if (err) return err
-            if (rows.length === 0) return res.json({ message: 'No uploads yet' })
+
             return res.send(rows)
         }
     )
@@ -88,11 +88,11 @@ const approveDeptDues = (req: Request, res: Response, next: NextFunction) => {
     )
 }
 
-const getpendingform = (req:Request,res:Response,next:NextFunction)=>{
-	db.query("SELECT * FROM students WHERE status = 'Not approved' ", (err,rows)=>{
-		if(err) return err
-		return res.send(rows)
-	})
+const getpendingform = (req: Request, res: Response, next: NextFunction) => {
+    db.query("SELECT * FROM students WHERE status = 'Not approved' ", (err, rows) => {
+        if (err) return err
+        return res.send(rows)
+    })
 }
 
 const approveform = (req: Request, res: Response, next: NextFunction) => {
@@ -113,6 +113,6 @@ export default {
     getAllPendingDeptDues,
     getAllApprovedDeptdues,
     approveDeptDues,
-	approveform,
-	getpendingform
+    approveform,
+    getpendingform
 }

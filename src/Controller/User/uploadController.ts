@@ -23,7 +23,7 @@ const uploadDeptDues = (req: Request, res: Response, next: NextFunction) => {
         db.query(userExists, [studentId], (err, rows: any) => {
             if (!err) {
                 if (rows.length > 0) {
-                    return res.json({ message: 'user already Exists' })
+                    return res.json({ message: 'Already submitted' })
                 } else {
                     let sql =
                         'INSERT INTO departmentaldues(student_id, first_yr, second_yr, third_yr, fourth_yr,fifth_yr, status, date_created) VALUES (?,?,?,?,?,?,?,?)'
