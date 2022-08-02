@@ -9,11 +9,11 @@ import uploadRoute from './Routes/userRoutes/uploadRoutes'
 import deptRoutes from './Routes/adminRoutes/deptRoutes'
 import countsRouter from './Routes/adminRoutes/countsRoute'
 import formRoute from './Routes/userRoutes/formRoutes'
+import ClearanceRoutes from './Routes/adminRoutes/clearanceRoutes'
 const app = express()
 app.use(cors())
 app.use(helmet())
-//app.use('/static',express.static('./public'))
-app.use('/static', express.static(path.join(__dirname, 'public')))
+app.use('/static', express.static(path.join(__dirname, './public')))
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
@@ -25,6 +25,7 @@ app.use('/api/v1/', uploadRoute)
 app.use('/api/v1', deptRoutes)
 app.use('/api/v1/', countsRouter)
 app.use('/api/v1/', formRoute)
+app.use('/api/v1/', ClearanceRoutes)
 
 //check for db connection
 db.connect((err: any) => {

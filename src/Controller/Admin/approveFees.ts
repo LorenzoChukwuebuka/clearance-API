@@ -54,7 +54,6 @@ const getAllPendingDeptDues = (
         'SELECT departmentaldues.*,students.name,students.reg_number FROM departmentaldues JOIN students ON students.id = departmentaldues.student_id WHERE departmentaldues.status = "Not Approved" ',
         (err, rows: any) => {
             if (err) return err
-            //if (rows.length === 0) return res.json({ message: 'No uploads yet' })
             res.send(rows)
         }
     )
