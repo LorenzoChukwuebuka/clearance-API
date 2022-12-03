@@ -10,6 +10,12 @@ router.get('/totalAdmins', controller.getAdmins)
 router.get('/totalDepts', controller.getDepts)
 router.get('/totalStudents', controller.getStudents)
 router.get('/pendingschoolfees', controller.pendingSchFees)
+router.get('/approvedforms', controller.approvedclearanceforms)
+router.get('/totalpendinglibrary', controller.pendinglibrary)
+router.get('/totalapprovedlibrary', controller.approvedlibrary)
+router.get('/totaldeans', controller.approveddeans)
+router.get('/totalapproveddeptdues', controller.approveddeans)
+router.get('/totalapprovedschfees', controller.approvedschfees)
 
 
 /**
@@ -30,7 +36,7 @@ router.get('/getapprovedlibrarydue', controllers.getApprovedlibrary)
 router.get('/getapprovedmedicaldues', controllers.getApprovedMedical)
 router.put('/approvelibrary/:id', controllers.approveLibrary)
 router.put('/approvemedical/:id', controllers.approveMedical)
-router.post('/deanclearance',controllers.deansClearance)
-router.get('/allapprovedStudents',controllers.getAllStudents)
+router.post('/deanclearance', controllers.deansClearance)
+router.get('/allapprovedStudents', controllers.getAllStudents)
 
 export = router

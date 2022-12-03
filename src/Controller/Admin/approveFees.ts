@@ -231,6 +231,11 @@ const getAllStudents = (req: Request, res: Response, next: NextFunction) => {
     )
 }
 
+const getAllDeancleared = (req: Request, res: Response, next: NextFunction)=>{
+    db.query("SELECT  dean_clearance.*,students.name,students.reg_number FROM  dean_clearance JOIN students ON students.id =  dean_clearance.user_id  ")
+
+}
+
 
 
 

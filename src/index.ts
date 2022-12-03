@@ -8,13 +8,26 @@ import uploadRoute from './Routes/userRoutes/uploadRoutes'
 import deptRoutes from './Routes/adminRoutes/deptRoutes'
 import countsRouter from './Routes/adminRoutes/countsRoute'
 import formRoute from './Routes/userRoutes/formRoutes'
- 
+var history = require('connect-history-api-fallback')
+
 import { createFolder } from './upload'
 const app = express()
 
 app.use(function(_, res, next) {
     res.setHeader('Cross-Origin-Resource-Policy', 'same-site')
     next()
+})
+
+app.use(
+    history({
+        index: '/index.html'
+    })
+)
+
+app.use(express.static(path.join(__dirname, 'client')))
+
+app.get('/', (_, res) => {
+    res.sendFile(path.join(__dirname, 'client/index.html'))
 })
 
 app.use(cors())
@@ -31,7 +44,7 @@ app.use('/api/v1/', uploadRoute)
 app.use('/api/v1', deptRoutes)
 app.use('/api/v1/', countsRouter)
 app.use('/api/v1/', formRoute)
- 
+
 
 //check for db connection
 db.connect((err: any) => {
