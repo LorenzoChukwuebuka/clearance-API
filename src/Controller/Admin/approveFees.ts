@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from 'express'
 import db from '../../db'
 import { currentDate } from '../../utils'
 
+
 const getAllPendingSchFees = (
     req: Request,
     res: Response,
@@ -105,6 +106,88 @@ const approveform = (req: Request, res: Response, next: NextFunction) => {
     })
 }
 
+
+const getPendinglibrary = (req: Request, res: Response, next: NextFunction) => {
+    db.query(
+        'SELECT  library_clearance.*,students.name,students.reg_number FROM  library_clearance JOIN students ON students.id =  library_clearance.student_id WHERE  library_clearance.status = "Not Approved" ',
+        (err, rows: any) => {
+            if (err) return err
+
+            res.send(rows)
+        }
+    )
+}
+const getPendingMedical = (req: Request, res: Response, next: NextFunction) => {
+    db.query(
+        'SELECT medical_clearance.*,students.name,students.reg_number FROM medical_clearance JOIN students ON students.id = medical_clearance.student_id WHERE medical_clearance.status = "Not Approved" ',
+        (err, rows: any) => {
+            if (err) return err
+
+            res.send(rows)
+        }
+    )
+}
+const getApprovedlibrary = (req: Request, res: Response, next: NextFunction) => {
+    db.query(
+        'SELECT  library_clearance.*,students.name,students.reg_number FROM  library_clearance JOIN students ON students.id =  library_clearance.student_id WHERE  library_clearance.status = "Approved" ',
+        (err, rows: any) => {
+            if (err) return err
+
+            res.send(rows)
+        }
+    )
+}
+const getApprovedMedical = (req: Request, res: Response, next: NextFunction) => {
+    db.query(
+        'SELECT  library_clearance.*,students.name,students.reg_number FROM  library_clearance JOIN students ON students.id =  library_clearance.student_id WHERE  library_clearance.status = "Approved" ',
+        (err, rows: any) => {
+            if (err) return err
+
+            res.send(rows)
+        }
+    )
+}
+
+const approveLibrary = (req: Request, res: Response, next: NextFunction) => {
+    let id = req.params.id
+    let status = 'Approved'
+    db.query(
+        'UPDATE library_clearance SET status = ? WHERE id = ? ',
+        [status, id],
+        (err, result) => {
+            if (err) return err
+            return res.json({ message: 'updated successfully' })
+        }
+    )
+}
+
+const approveMedical = (req: Request, res: Response, next: NextFunction) => {
+    let id = req.params.id
+    let status = 'Approved'
+    db.query(
+        'UPDATE medical_clearance SET status = ? WHERE id = ? ',
+        [status, id],
+        (err, result) => {
+            if (err) return err
+            return res.json({ message: 'updated successfully' })
+        }
+    )
+}
+
+
+const deansClearance = (req: Request, res: Response, next: NextFunction) => {
+    let id = req.body.student_id
+
+    
+
+    
+}
+
+
+
+
+
+
 export default {
     getAllPendingSchFees,
     getAllApprovedSchFees,
@@ -113,5 +196,14 @@ export default {
     getAllApprovedDeptdues,
     approveDeptDues,
     approveform,
-    getpendingform
+    getpendingform,
+    getPendingMedical,
+    getPendinglibrary,
+    getApprovedMedical,
+    getApprovedlibrary,
+    approveMedical,
+    approveLibrary,
+    deansClearance
+
+
 }

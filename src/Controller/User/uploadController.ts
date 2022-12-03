@@ -18,7 +18,7 @@ const uploadDeptDues = (req: Request, res: Response, next: NextFunction) => {
 
         //check if student data already exists
 
-        let userExists = 'SELECT * FROM departmentaldues WHERE id = ?'
+        let userExists = 'SELECT * FROM departmentaldues WHERE student_id = ?'
 
         db.query(userExists, [studentId], (err, rows: any) => {
             if (!err) {
@@ -31,11 +31,11 @@ const uploadDeptDues = (req: Request, res: Response, next: NextFunction) => {
                         sql,
                         [
                             studentId,
-                            firstYear,
-                            secondYear,
-                            thirdYear,
-                            fourthYear,
-                            fifthYear,
+                            "deptDues/" + firstYear,
+                            "deptDues/" + secondYear,
+                            "deptDues/" + thirdYear,
+                            "deptDues/" + fourthYear,
+                            "deptDues/" + fifthYear,
                             'Not Approved',
                             currentDate()
                         ],
@@ -73,11 +73,11 @@ const uploadSchFees = (req: Request, res: Response, next: NextFunction) => {
 
         //check if student data already exists
 
-        let userExists = 'SELECT * FROM schoolfees WHERE id = ?'
+        let userExists = 'SELECT * FROM schoolfees WHERE student_id = ?'
         db.query(userExists, [studentId], (err, rows: any) => {
             if (!err) {
                 if (rows.length > 0) {
-                    res.json({ message: 'User already exists' })
+                    res.json({ message: 'Already submitted' })
                 } else {
                     //run insert query
                     let sql =
@@ -86,11 +86,11 @@ const uploadSchFees = (req: Request, res: Response, next: NextFunction) => {
                         sql,
                         [
                             studentId,
-                            firstYear,
-                            secondYear,
-                            thirdYear,
-                            fourthYear,
-                            fifthYear,
+                            "schFees/" + firstYear,
+                            "schFees/" + secondYear,
+                            "schFees/" + thirdYear,
+                            "schFees/" + fourthYear,
+                            "schFees/" + fifthYear,
                             'Not Approved',
                             currentDate()
                         ],

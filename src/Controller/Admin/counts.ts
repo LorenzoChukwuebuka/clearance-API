@@ -50,12 +50,27 @@ const pendingDeptDues = (req: Request, res: Response, next: NextFunction) => {
 }
 
 const pendingclearanceforms = (req: Request, res: Response, next: NextFunction) => {
+    db.query('SELECT ifnull((select count(`id`) from `students` where `status`="Not Approved"),0) as pending_forms', (err, rows) => {
+        if (err) return res.json({ message: "An error occured" }).status(500)
+        res.send(rows)
+
+    })
+}
+
+const approvedclearanceforms  = (req: Request, res: Response, next: NextFunction) => {
     db.query('SELECT ifnull((select count(`id`) from `students` where `status`="Approved"),0) as pending_forms', (err, rows) => {
         if (err) return res.json({ message: "An error occured" }).status(500)
         res.send(rows)
 
     })
 }
+
+const pendinglibrary = ()=>{}
+
+const approvedlibrary = () =>{}
+
+const approveddeans = () =>{}
+
 
 
 export default {
