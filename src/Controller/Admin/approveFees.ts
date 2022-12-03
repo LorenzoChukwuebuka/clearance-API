@@ -176,11 +176,59 @@ const approveMedical = (req: Request, res: Response, next: NextFunction) => {
 
 
 const deansClearance = (req: Request, res: Response, next: NextFunction) => {
-    let id = req.body.student_id
+    const { id, admin } = req.body
 
-    
+    db.query("SELECT * FROM dean_clearance WHERE user_id = ?", [id], (err, rows: any) => {
+        if (err) throw err
 
-    
+        if (rows.length > 0) {
+            return res.json({ code: 3, message: "student has already been cleared" })
+        }
+
+        db.query("INSERT INTO `dean_clearance`( `user_id`, `signed_by`, `status`) VALUES (?,?,?)", [id, admin, 'approved'], (err, row: any) => {
+            if (err) throw err
+
+            return res.json({ code: 1, message: "Student have been cleared" })
+        })
+    })
+
+
+
+}
+
+
+const studenAffairsClearance = (req: Request, res: Response, next: NextFunction) => {
+    const { id, admin } = req.body
+
+    db.query("SELECT * FROM dean_clearance WHERE user_id = ?", [id], (err, rows: any) => {
+        if (err) throw err
+
+        if (rows.length > 0) {
+            return res.json({ code: 3, message: "student has been cleared" })
+        }
+
+        db.query("INSERT INTO `dean_clearance`( `user_id`, `signed_by`, `status`) VALUES (?,?,?)", [id, admin, 'approved'], (err, row: any) => {
+            if (err) throw err
+
+            return res.json({ code: 1, message: "Student have been cleared" })
+        })
+    })
+
+
+
+}
+
+//select all approved fees
+const getAllStudents = (req: Request, res: Response, next: NextFunction) => {
+
+    db.query('SELECT *,NULL AS `password`  FROM students WHERE status = "Approved"', (err: any, result: any) => {
+        if (err) throw err
+        res.status(200).json({
+            message: 'All Students',
+            data: result
+        })
+    }
+    )
 }
 
 
@@ -203,7 +251,8 @@ export default {
     getApprovedlibrary,
     approveMedical,
     approveLibrary,
-    deansClearance
+    deansClearance,
+    getAllStudents
 
 
 }

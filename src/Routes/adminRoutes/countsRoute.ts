@@ -31,5 +31,6 @@ router.get('/getapprovedmedicaldues', controllers.getApprovedMedical)
 router.put('/approvelibrary/:id', controllers.approveLibrary)
 router.put('/approvemedical/:id', controllers.approveMedical)
 router.post('/deanclearance',controllers.deansClearance)
+router.get('/allapprovedStudents',controllers.getAllStudents)
 
 export = router
