@@ -139,7 +139,7 @@ const getApprovedlibrary = (req: Request, res: Response, next: NextFunction) => 
 }
 const getApprovedMedical = (req: Request, res: Response, next: NextFunction) => {
     db.query(
-        'SELECT  library_clearance.*,students.name,students.reg_number FROM  library_clearance JOIN students ON students.id =  library_clearance.student_id WHERE  library_clearance.status = "Approved" ',
+        'SELECT medical_clearance.*,students.name,students.reg_number FROM medical_clearance JOIN students ON students.id = medical_clearance.student_id WHERE  medical_clearance.status = "Approved" ',
         (err, rows: any) => {
             if (err) return err
 
@@ -231,7 +231,7 @@ const getAllStudents = (req: Request, res: Response, next: NextFunction) => {
     )
 }
 
-const getAllDeancleared = (req: Request, res: Response, next: NextFunction)=>{
+const getAllDeancleared = (req: Request, res: Response, next: NextFunction) => {
     db.query("SELECT  dean_clearance.*,students.name,students.reg_number FROM  dean_clearance JOIN students ON students.id =  dean_clearance.user_id  ")
 
 }
