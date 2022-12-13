@@ -45,7 +45,6 @@ app.use('/api/v1', deptRoutes)
 app.use('/api/v1/', countsRouter)
 app.use('/api/v1/', formRoute)
 
-
 //check for db connection
 db.connect((err: any) => {
     if (err) throw err

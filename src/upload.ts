@@ -1,7 +1,7 @@
 import multer from "multer";
 import path from "path";
 import fs from "fs";
- 
+
 
 const schoolFeesPath = path.join(__dirname, "./public/schFees");
 const deptDuesPath = path.join(__dirname, "./public/deptDues");
@@ -92,7 +92,7 @@ const courseFilter = (req: any, files: any, cb: any) => {
 };
 
 const profileImageFilter = (req: any, files: any, cb: any) => {
-    if (files.mimetype.split("/")[1] === "png" || files.mimetype.split("/")[1] === "jpg" || files.mimetype.split("/")[1] === "jpeg"|| files.mimetype.split("/")[1] === "pdf") {
+    if (files.mimetype.split("/")[1] === "png" || files.mimetype.split("/")[1] === "jpg" || files.mimetype.split("/")[1] === "jpeg" || files.mimetype.split("/")[1] === "pdf") {
         cb(null, true);
     } else {
         cb(new Error("Not a supported file"), false);
@@ -100,7 +100,7 @@ const profileImageFilter = (req: any, files: any, cb: any) => {
 };
 
 const proposalFilter = (req: any, files: any, cb: any) => {
-    if (files.mimetype.split("/")[1] === "jpeg" || files.mimetype.split("/")[1] === "jpg" || files.mimetype.split("/")[1] === "png"|| files.mimetype.split("/")[1] === "pdf") {
+    if (files.mimetype.split("/")[1] === "jpeg" || files.mimetype.split("/")[1] === "jpg" || files.mimetype.split("/")[1] === "png" || files.mimetype.split("/")[1] === "pdf") {
         cb(null, true);
     } else {
         cb(new Error("Not a supported file"), false);
@@ -108,7 +108,7 @@ const proposalFilter = (req: any, files: any, cb: any) => {
 };
 
 const serviceFilter = (req: any, files: any, cb: any) => {
-    if (files.mimetype.split("/")[1] === "png" || files.mimetype.split("/")[1] === "jpg" || files.mimetype.split("/")[1] === "jpeg"|| files.mimetype.split("/")[1] === "pdf") {
+    if (files.mimetype.split("/")[1] === "png" || files.mimetype.split("/")[1] === "jpg" || files.mimetype.split("/")[1] === "jpeg" || files.mimetype.split("/")[1] === "pdf") {
         cb(null, true);
     } else {
         cb(new Error("Not a supported file"), false);
@@ -131,7 +131,7 @@ export const ErrorMulterChecking = (multerUploadFunction: any) => {
             if (err && err.name && err.name === "MulterError") {
                 return res.json({
                     error: `File upload error:${err.message}`
-                }).status(500)  
+                }).status(500)
             }
             // handle other errors
             if (err) {

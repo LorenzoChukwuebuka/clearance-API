@@ -7,7 +7,6 @@ import department from '../Admin/department'
 
 const createStudent = (req: Request, res: Response, next: NextFunction) => {
 
-
     let user: string = req.body.user
     let regnum: any = req.body.regnum
     let gradYear: Date = req.body.gradYear
@@ -43,8 +42,8 @@ const createStudent = (req: Request, res: Response, next: NextFunction) => {
 }
 
 
-const createSchclearanceForm = (req:Request,res:Response,next:NextFunction) =>{
-    const {} = req.body
+const createSchclearanceForm = (req: Request, res: Response, next: NextFunction) => {
+    const { } = req.body
 }
 
 
