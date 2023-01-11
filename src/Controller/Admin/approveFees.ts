@@ -1,6 +1,11 @@
 import { Request, Response, NextFunction } from 'express'
 import db from '../../db'
 import { currentDate } from '../../utils'
+import sharp from 'sharp'
+import path from 'path'
+import fs from 'fs'
+
+const schoolFeesPath = path.join(__dirname, "./../../public");
 
 
 const getAllPendingSchFees = (
@@ -36,14 +41,162 @@ const getAllApprovedSchFees = (
 const approveSchFees = (req: Request, res: Response, next: NextFunction) => {
     let id = req.params.id
     let status = 'Approved'
-    db.query(
-        'UPDATE schoolfees SET status = ? WHERE id = ? ',
-        [status, id],
-        (err, result) => {
-            if (err) return err
-            return res.json({ message: 'updated successfully' })
+
+
+
+    db.query("SELECT * FROM schoolfees WHERE id = ?", [id], (err: any, result: any) => {
+
+        if (result[0].status == status) {
+            return res.json({
+                code: 3,
+                message: "User has been approved"
+            })
         }
-    )
+        let image1 = result[0].first_yr
+        let image2 = result[0].second_yr
+        let image3 = result[0].third_yr
+        let image4 = result[0].fourth_yr
+        let image5 = result[0].fifth_yr
+
+        if (!fs.existsSync(schoolFeesPath)) {
+            return res.json({ code: 3, message: "Invalid file path" })
+        }
+
+        const image = sharp(`${schoolFeesPath}/${image1}`);
+        const image_2 = sharp(`${schoolFeesPath}/${image2}`)
+        const image_3 = sharp(`${schoolFeesPath}/${image3}`)
+
+        const image_4 = sharp(`${schoolFeesPath}/${image4}`)
+        const image_5 = sharp(`${schoolFeesPath}/${image5}`)
+
+        let im = schoolFeesPath + "/" + "schFees" + "/" + 'approvedSchFees' + Date.now() + ".png"
+        let im2 = schoolFeesPath + "/" + "schFees" + 'approvedSchFees' + Date.now() + ".png"
+        let im3 = schoolFeesPath + "/" + "schFees" + 'approvedSchFees' + Date.now() + ".png"
+        let im4 = schoolFeesPath + "/" + "schFees" + 'approvedSchFees' + Date.now() + ".png"
+        let im5 = schoolFeesPath + "/" + "schFees" + 'approvedSchFees' + Date.now() + ".png"
+
+        image
+            .composite([{
+                input: `${schoolFeesPath}/approvedImage.png
+                `,
+                gravity: sharp.gravity.southeast
+            }])
+
+
+            .toFile(im, (err, info) => {
+                if (err) {
+                    throw err;
+                }
+                db.query(
+                    'UPDATE schoolfees SET first_yr = ? WHERE id = ? ',
+                    [im.split('/').slice(8).join('/'), id],
+                    (err, result) => {
+                        if (err) return err
+
+                    }
+                )
+                // console.log('Watermarked image saved', info);
+            });
+
+        image_2.composite([{
+            input: `${schoolFeesPath}/approvedImage.png
+            `,
+            gravity: sharp.gravity.southeast
+        }])
+
+
+            .toFile(im2, (err, info) => {
+                if (err) {
+                    throw err;
+                }
+                db.query(
+                    'UPDATE schoolfees SET second_yr = ? WHERE id = ? ',
+                    [im2.split('/').slice(8).join('/'), id],
+                    (err, result) => {
+                        if (err) return err
+
+                    }
+                )
+                // console.log('Watermarked image saved', info);
+            })
+
+        image_3.composite([{
+            input: `${schoolFeesPath}/approvedImage.png
+            `,
+            gravity: sharp.gravity.southeast
+        }])
+
+            .toFile(im3, (err, info) => {
+                if (err) {
+                    throw err;
+                }
+                db.query(
+                    'UPDATE schoolfees SET third_yr = ? WHERE id = ? ',
+                    [im3.split('/').slice(8).join('/'), id],
+                    (err, result) => {
+                        if (err) return err
+
+                    }
+                )
+                // console.log('Watermarked image saved', info);
+            })
+
+
+
+        image_4.composite([{
+            input: `${schoolFeesPath}/approvedImage.png
+            `,
+            gravity: sharp.gravity.southeast
+        }])
+            .toFile(im4, (err, info) => {
+                if (err) {
+                    throw err;
+                }
+                db.query(
+                    'UPDATE schoolfees SET fourth_yr = ? WHERE id = ? ',
+                    [im4.split('/').slice(8).join('/'), id],
+                    (err, result) => {
+                        if (err) return err
+
+                    }
+                )
+                //console.log('Watermarked image saved', info);
+            })
+
+        image_5.composite([{
+            input: `${schoolFeesPath}/approvedImage.png
+            `,
+            gravity: sharp.gravity.southeast
+        }])
+            .toFile(im5, (err, info) => {
+                if (err) {
+                    throw err;
+                }
+
+                db.query(
+                    'UPDATE schoolfees SET fifth_yr = ? WHERE id = ? ',
+                    [im5.split('/').slice(8).join('/'), id],
+                    (err, result) => {
+                        if (err) return err
+
+                    }
+                )
+                //console.log('Watermarked image saved', info);
+            })
+
+        //update the status
+        db.query(
+            'UPDATE schoolfees SET status = ? WHERE id = ? ',
+            [status, id],
+            (err, result) => {
+                if (err) return err
+                return res.json({ message: 'updated successfully' })
+            }
+        )
+
+
+    })
+
 }
 
 const getAllPendingDeptDues = (
@@ -78,14 +231,158 @@ const getAllApprovedDeptdues = (
 const approveDeptDues = (req: Request, res: Response, next: NextFunction) => {
     let id = req.params.id
     let status = 'Approved'
-    db.query(
-        'UPDATE departmentaldues SET status = ? WHERE id = ? ',
-        [status, id],
-        (err, result) => {
-            if (err) return err
-            return res.json({ message: 'updated successfully' })
+
+    db.query('SELECT * FROM departmentaldues WHERE id = ?', [id], (err: any, result: any) => {
+
+        if (result[0].status == status) {
+            return res.json({
+                code: 3,
+                message: "User has been approved"
+            })
         }
-    )
+        let image1 = result[0].first_yr
+        let image2 = result[0].second_yr
+        let image3 = result[0].third_yr
+        let image4 = result[0].fourth_yr
+        let image5 = result[0].fifth_yr
+
+        if (!fs.existsSync(schoolFeesPath)) {
+            return res.json({ code: 3, message: "Invalid file path" })
+        }
+
+
+        let im = schoolFeesPath + "/" + "deptDues" + "/" + 'approveddeptDues' + Date.now() + ".png"
+        let im2 = schoolFeesPath + "/" + "deptDues" + 'approveddeptDues' + Date.now() + ".png"
+        let im3 = schoolFeesPath + "/" + "deptDues" + 'approveddeptDues' + Date.now() + ".png"
+        let im4 = schoolFeesPath + "/" + "deptDues" + 'approveddeptDues' + Date.now() + ".png"
+        let im5 = schoolFeesPath + "/" + "deptDues" + 'approveddeptDues' + Date.now() + ".png"
+
+
+        const image = sharp(`${schoolFeesPath}/${image1}`);
+        const image_2 = sharp(`${schoolFeesPath}/${image2}`)
+        const image_3 = sharp(`${schoolFeesPath}/${image3}`)
+
+        const image_4 = sharp(`${schoolFeesPath}/${image4}`)
+        const image_5 = sharp(`${schoolFeesPath}/${image5}`)
+
+
+
+
+        image
+            .composite([{
+                input: `${schoolFeesPath}/approvedImage.png`,
+                gravity: sharp.gravity.southeast
+            }])
+
+
+            .toFile(im, (err, info) => {
+                if (err) {
+                    throw err;
+                }
+                db.query(
+                    'UPDATE departmentaldues SET first_yr = ? WHERE id = ? ',
+                    [im.split('/').slice(8).join('/'), id],
+                    (err, result) => {
+                        if (err) return err
+
+                    }
+                )
+                // console.log('Watermarked image saved', info);
+            });
+
+        image_2.composite([{
+            input: `${schoolFeesPath}/approvedImage.png`,
+            gravity: sharp.gravity.southeast
+        }])
+
+
+            .toFile(im2, (err, info) => {
+                if (err) {
+                    throw err;
+                }
+                db.query(
+                    'UPDATE departmentaldues SET second_yr = ? WHERE id = ? ',
+                    [im2.split('/').slice(8).join('/'), id],
+                    (err, result) => {
+                        if (err) return err
+
+                    }
+                )
+                // console.log('Watermarked image saved', info);
+            })
+
+        image_3.composite([{
+            input: `${schoolFeesPath}/approvedImage.png`,
+            gravity: sharp.gravity.southeast
+        }])
+
+            .toFile(im3, (err, info) => {
+                if (err) {
+                    throw err;
+                }
+                db.query(
+                    'UPDATE departmentaldues SET third_yr = ? WHERE id = ? ',
+                    [im3.split('/').slice(8).join('/'), id],
+                    (err, result) => {
+                        if (err) return err
+
+                    }
+                )
+                // console.log('Watermarked image saved', info);
+            })
+
+
+
+        image_4.composite([{
+            input: `${schoolFeesPath}/approvedImage.png`,
+            gravity: sharp.gravity.southeast
+        }])
+            .toFile(im4, (err, info) => {
+                if (err) {
+                    throw err;
+                }
+                db.query(
+                    'UPDATE departmentaldues SET fourth_yr = ? WHERE id = ? ',
+                    [im4.split('/').slice(8).join('/'), id],
+                    (err, result) => {
+                        if (err) return err
+
+                    }
+                )
+                //console.log('Watermarked image saved', info);
+            })
+
+        image_5.composite([{
+            input: `${schoolFeesPath}/approvedImage.png`,
+            gravity: sharp.gravity.southeast
+        }])
+            .toFile(im5, (err, info) => {
+                if (err) {
+                    throw err;
+                }
+
+                db.query(
+                    'UPDATE departmentaldues SET fifth_yr = ? WHERE id = ? ',
+                    [im5.split('/').slice(8).join('/'), id],
+                    (err, result) => {
+                        if (err) return err
+
+                    }
+                )
+                //console.log('Watermarked image saved', info);
+            })
+
+
+        db.query(
+            'UPDATE departmentaldues SET status = ? WHERE id = ? ',
+            [status, id],
+            (err, result) => {
+                if (err) return err
+                return res.json({ message: 'updated successfully' })
+            }
+        )
+    })
+
 }
 
 const getpendingform = (req: Request, res: Response, next: NextFunction) => {

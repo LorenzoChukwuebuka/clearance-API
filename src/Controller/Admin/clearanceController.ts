@@ -93,16 +93,11 @@ const getMedicalClearance = (req: Request, res: Response, next: NextFunction) =>
 
 
 
-
-
-
-
-
 export default {
     getAllStudents,
     libraryClearance,
     getClearedLibrary,
     getMedicalClearance,
     medicalClearance,
-    
+
 }

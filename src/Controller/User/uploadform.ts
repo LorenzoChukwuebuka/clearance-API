@@ -19,7 +19,7 @@ const createStudent = (req: Request, res: Response, next: NextFunction) => {
     if (regnum && supervisor && gradYear) {
         //check if student already exists 
         db.query("SELECT * FROM students WHERE reg_number = ?", [regnum], (err, rows: any) => {
-            if (err) return err
+            if (err) throw err.message
 
             if (rows.length > 0) {
                 return res.json({ message: "Student already exists!" })
@@ -30,7 +30,7 @@ const createStudent = (req: Request, res: Response, next: NextFunction) => {
 
             let sql = "INSERT INTO students(name,reg_number,course_adviser,project_supervisor,grad_year,dept_admin,department,password,date_created,status) Values(?,?,?,?,?,?,?,?,?,?)  "
             db.query(sql, [user, regnum, courseadviser, supervisor, gradYear, deptadmin, dept, password, currentDate(), status], (err, result) => {
-                if (err) console.dir(err)
+                if (err) throw err.message
                 return res.json({ message: "submission successful" })
             })
 

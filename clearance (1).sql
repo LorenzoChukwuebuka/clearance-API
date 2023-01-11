@@ -233,7 +233,7 @@ CREATE TABLE `students` (
   `project_supervisor` varchar(244) DEFAULT NULL,
   `grad_year` varchar(244) DEFAULT NULL,
   `dept_admin` varchar(244) DEFAULT NULL,
-  `department` int DEFAULT NULL,
+  `department` varchar(244) DEFAULT NULL,
   `password` varchar(225) NOT NULL,
   `status` varchar(244) NOT NULL,
   `date_created` timestamp NOT NULL
