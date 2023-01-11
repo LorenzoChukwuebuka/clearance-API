@@ -18,17 +18,17 @@ app.use(function(_, res, next) {
     next()
 })
 
-// app.use(
-//     history({
-//         index: '/index.html'
-//     })
-// )
+app.use(
+    history({
+        index: '/index.html'
+    })
+)
 
-// app.use(express.static(path.join(__dirname, 'client')))
+app.use(express.static(path.join(__dirname, 'client')))
 
-// app.get('/', (_, res) => {
-//     res.sendFile(path.join(__dirname, 'client/index.html'))
-// })
+app.get('/', (_, res) => {
+    res.sendFile(path.join(__dirname, 'client/index.html'))
+})
 
 app.use(cors())
 app.use(helmet())
