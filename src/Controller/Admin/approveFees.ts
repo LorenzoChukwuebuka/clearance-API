@@ -287,7 +287,7 @@ const approveDeptDues = (req: Request, res: Response, next: NextFunction) => {
 
                     }
                 )
-                // console.log('Watermarked image saved', info);
+                 console.log('Watermarked image saved', info);
             });
 
         image_2.composite([{
@@ -308,7 +308,7 @@ const approveDeptDues = (req: Request, res: Response, next: NextFunction) => {
 
                     }
                 )
-                // console.log('Watermarked image saved', info);
+                 console.log('Watermarked image saved', info);
             })
 
         image_3.composite([{
@@ -328,7 +328,7 @@ const approveDeptDues = (req: Request, res: Response, next: NextFunction) => {
 
                     }
                 )
-                // console.log('Watermarked image saved', info);
+                 console.log('Watermarked image saved', info);
             })
 
 
