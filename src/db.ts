@@ -1,4 +1,5 @@
 import mysql2 from 'mysql2'
+require
 
 const db = mysql2.createConnection({
     host     :   'localhost', 
