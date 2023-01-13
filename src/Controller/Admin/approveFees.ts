@@ -70,15 +70,14 @@ const approveSchFees = (req: Request, res: Response, next: NextFunction) => {
         const image_5 = sharp(`${schoolFeesPath}/${image5}`)
 
         let im = schoolFeesPath + "/" + "schFees" + "/" + 'approvedSchFees' + Date.now() + ".png"
-        let im2 = schoolFeesPath + "/" + "schFees" + 'approvedSchFees' + Date.now() + ".png"
-        let im3 = schoolFeesPath + "/" + "schFees" + 'approvedSchFees' + Date.now() + ".png"
-        let im4 = schoolFeesPath + "/" + "schFees" + 'approvedSchFees' + Date.now() + ".png"
-        let im5 = schoolFeesPath + "/" + "schFees" + 'approvedSchFees' + Date.now() + ".png"
+        let im2 = schoolFeesPath + "/" + "schFees" + "/" + 'approvedSchFees' + Date.now() + ".png"
+        let im3 = schoolFeesPath + "/" + "schFees" + "/" + 'approvedSchFees' + Date.now() + ".png"
+        let im4 = schoolFeesPath + "/" + "schFees" + "/" + 'approvedSchFees' + Date.now() + ".png"
+        let im5 = schoolFeesPath + "/" + "schFees" + "/" + 'approvedSchFees' + Date.now() + ".png"
 
         image
             .composite([{
-                input: `${schoolFeesPath}/approvedImage.png
-                `,
+                input: `${schoolFeesPath}/approvedImage.png`,
                 gravity: sharp.gravity.southeast
             }])
 
@@ -99,8 +98,7 @@ const approveSchFees = (req: Request, res: Response, next: NextFunction) => {
             });
 
         image_2.composite([{
-            input: `${schoolFeesPath}/approvedImage.png
-            `,
+            input: `${schoolFeesPath}/approvedImage.png`,
             gravity: sharp.gravity.southeast
         }])
 
@@ -121,8 +119,7 @@ const approveSchFees = (req: Request, res: Response, next: NextFunction) => {
             })
 
         image_3.composite([{
-            input: `${schoolFeesPath}/approvedImage.png
-            `,
+            input: `${schoolFeesPath}/approvedImage.png`,
             gravity: sharp.gravity.southeast
         }])
 
@@ -144,8 +141,7 @@ const approveSchFees = (req: Request, res: Response, next: NextFunction) => {
 
 
         image_4.composite([{
-            input: `${schoolFeesPath}/approvedImage.png
-            `,
+            input: `${schoolFeesPath}/approvedImage.png`,
             gravity: sharp.gravity.southeast
         }])
             .toFile(im4, (err, info) => {
@@ -164,8 +160,7 @@ const approveSchFees = (req: Request, res: Response, next: NextFunction) => {
             })
 
         image_5.composite([{
-            input: `${schoolFeesPath}/approvedImage.png
-            `,
+            input: `${schoolFeesPath}/approvedImage.png`,
             gravity: sharp.gravity.southeast
         }])
             .toFile(im5, (err, info) => {
@@ -184,15 +179,15 @@ const approveSchFees = (req: Request, res: Response, next: NextFunction) => {
                 //console.log('Watermarked image saved', info);
             })
 
-        //update the status
-        db.query(
-            'UPDATE schoolfees SET status = ? WHERE id = ? ',
-            [status, id],
-            (err, result) => {
-                if (err) return err
-                return res.json({ message: 'updated successfully' })
-            }
-        )
+        // update the status
+        // db.query(
+        //     'UPDATE schoolfees SET status = ? WHERE id = ? ',
+        //     [status, id],
+        //     (err, result) => {
+        //         if (err) return err
+        //         return res.json({ message: 'updated successfully' })
+        //     }
+        // )
 
 
     })
@@ -252,10 +247,11 @@ const approveDeptDues = (req: Request, res: Response, next: NextFunction) => {
 
 
         let im = schoolFeesPath + "/" + "deptDues" + "/" + 'approveddeptDues' + Date.now() + ".png"
-        let im2 = schoolFeesPath + "/" + "deptDues" + 'approveddeptDues' + Date.now() + ".png"
-        let im3 = schoolFeesPath + "/" + "deptDues" + 'approveddeptDues' + Date.now() + ".png"
-        let im4 = schoolFeesPath + "/" + "deptDues" + 'approveddeptDues' + Date.now() + ".png"
-        let im5 = schoolFeesPath + "/" + "deptDues" + 'approveddeptDues' + Date.now() + ".png"
+        let im2 = schoolFeesPath + "/" + "deptDues" + "/" + 'approveddeptDues' + Date.now() + ".png"
+        let im3 = schoolFeesPath + "/" + "deptDues" + "/" + 'approveddeptDues' + Date.now() + ".png"
+        let im4 = schoolFeesPath + "/" + "deptDues" + "/" + 'approveddeptDues' + Date.now() + ".png"
+        let im5 = schoolFeesPath + "/" + "deptDues" + "/" + 'approveddeptDues' + Date.now() + ".png"
+
 
 
         const image = sharp(`${schoolFeesPath}/${image1}`);
@@ -287,7 +283,7 @@ const approveDeptDues = (req: Request, res: Response, next: NextFunction) => {
 
                     }
                 )
-                 console.log('Watermarked image saved', info);
+                console.log('Watermarked image saved', info);
             });
 
         image_2.composite([{
@@ -308,7 +304,7 @@ const approveDeptDues = (req: Request, res: Response, next: NextFunction) => {
 
                     }
                 )
-                 console.log('Watermarked image saved', info);
+                console.log('Watermarked image saved', info);
             })
 
         image_3.composite([{
@@ -328,7 +324,7 @@ const approveDeptDues = (req: Request, res: Response, next: NextFunction) => {
 
                     }
                 )
-                 console.log('Watermarked image saved', info);
+                console.log('Watermarked image saved', info);
             })
 
 
